@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para ti</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.center { text-align: center; }
+
+button {
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#step2, #dateSection { display: none; }
+
+#error {
+  color: red;
+  margin-top: 10px;
+  display: none;
+}
+
+#textContainer,
+#finalText,
+#lastText,
+#middleText,
+#confessionText,
+#loveText {
+  color: white;
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 900px;
+  margin-top: 30px;
+}
+
+/* CONTROLES */
+#controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+#skipBtn,
+#continueBtn,
+#finalContinueBtn,
+#lastContinueBtn,
+#middleContinueBtn {
+  display: none;
+}
+
+/* PRIMERAS IMÁGENES */
+#imageSequence {
+  display: none;
+  margin-top: 30px;
+  text-align: center;
+}
+
+#imageSequence img {
+  max-width: 250px;
+  margin: 10px;
+  opacity: 0;
+  transition: opacity 2s ease;
+  border-radius: 12px;
+}
+
+/* TEXTO QUE BAJA */
+#lastText {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: top 2s ease;
+}
+
+#lastText.show {
+  top: 80px;
+}
+
+/* BOTONES */
+#finalContinueBtn,
+#lastContinueBtn,
+#middleContinueBtn {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+}
+
+/* IMÁGENES EN U */
+#uImages {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+#uImages img {
+  position: absolute;
+  max-width: 260px;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  border-radius: 12px;
+}
+
+#imgTopCenter {
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#imgBottomCenter {
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#imgTopLeft {
+  top: 40px;
+  left: 40px;
+}
+
+#uImages img.show {
+  opacity: 1;
+}
+
+/* TEXTO ENTRE IMÁGENES */
+#middleText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: justify;
+  display: none;
+}
+
+/* TEXTO FINAL */
+#confessionText {
+  display: none;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+#loveText {
+  display: none;
+  font-size: 40px;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+/* CUANDO HAY TEXTO LARGO */
+.scroll-enabled {
+  overflow-y: auto;
+}
+
+/* CONTENEDOR CON SCROLL SUAVE */
+.scroll-container {
+  max-height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="center" id="step1">
+  <button onclick="goToStep2()">¿Segura de querer continuar?</button>
+</div>
+
+<div class="center" id="step2">
+  <button onclick="goToDate()">¿Segura?</button>
+</div>
+
+<div class="center" id="dateSection">
+  <p>Ingresa la fecha donde nos hicimos novios.</p>
+  <input type="text" id="dateInput">
+  <br><br>
+  <button onclick="checkDate()">Confirmar</button>
+  <div id="error">Incorrecta. Inténtalo de nuevo</div>
+</div>
+
+<script>
+const fullText = `Cuando nos conocimos no hubo un inicio solemne ni una escena perfecta. No fue un instante que pudiera guardar intacto en la memoria, sino una sucesión de pequeños momentos que, sin avisar, empezaron a ocuparme. Al principio fuiste solo una presencia leve, una curiosidad tranquila. No sabía quién eras del todo, pero algo en ti se sentía distinto, como si el tiempo a tu alrededor avanzara de otra manera. Primero te escuché. No con los oídos, sino con la atención. Tu voz se fue volviendo familiar antes de volverse importante. Empecé a notar cómo cambiaba cuando te emocionabas, cómo se suavizaba cuando estabas tranquila, cómo se volvía firme cuando decías algo que de verdad sentías. Después llegaron tus silencios, esos que no piden explicación, que no incomodan, que simplemente existen. Ahí entendí que contigo no hacía falta llenar los espacios. Con los días empecé a conocerte en capas. No eras una sola versión de ti misma, y eso fue lo que más me atrapó. Estaba tu risa, libre y luminosa, capaz de romper cualquier día gris. Estaba tu seriedad, esa que no asusta, pero impone respeto. Estaba tu ternura, silenciosa, cuidadosa, y también tu carácter, firme, honesto, imposible de ignorar. Cada una de tus facetas aparecía cuando tenía que aparecer, como si te tomaras el tiempo de mostrarte sin prisa. Después llegaron los gestos. Pequeños, casi invisibles para cualquiera que no mirara con atención. La forma en que te expresas cuando algo te importa, cómo te preocupas sin hacer ruido, cómo sabes ser fuerte sin dejar de ser sensible. Empecé a entenderte en lo cotidiano, en lo simple, en eso que no se presume pero se queda. Y más adelante, cuando ya era inevitable, aparecieron tus ojos. No fue amor a primera vista; fue reconocimiento. Ojos que no miran por costumbre, que sostienen, que hablan incluso cuando callas. Ojos que parecen guardar historias, dudas, certezas y sueños. Cada vez que me miras, el mundo se vuelve un poco más lento, como si necesitara ese segundo extra para acomodarse. Nada en ti fue repentino. Todo llegó con el tiempo exacto. Cada parte de ti se fue acomodando en mí sin violencia, sin ruido, sin promesas exageradas. Y sin darme cuenta, mientras te conocía paso a paso, yo ya había aprendido a quedarme. Porque amarte no fue una decisión consciente, fue un proceso. Fue descubrirte sin prisa, aceptar cada una de tus formas, entender tus luces y tus sombras. Fue darme cuenta de que no necesitaba que fueras perfecta, porque ya eras real. Y en ese transcurso silencioso, inevitable, cuando nos conocimos… también me encontré a mí.`;
+const finalTextContent = `Amo todos los momentos a tu lado, incluso aquellos que no tienen nombre ni recuerdo exacto. Los instantes que no se fotografían, que no se cuentan después, que simplemente suceden y se van quedando dentro. Amo estar contigo cuando el día es tranquilo y también cuando pesa, cuando no hace falta decir nada porque tu presencia ya responde a todo.
+A tu lado el tiempo no se impone, se adapta. Aprendí que no siempre hay que llenar los minutos de palabras o planes. A veces basta con compartir el mismo espacio, la misma calma, el mismo silencio. Y en esa cercanía entendí que el amor también es aprender a estar sin huir, sin distraerse, sin necesidad de algo más.
+Amo verte en lo cotidiano. En tus gestos más simples, en la forma en que te mueves, en cómo cambias de expresión sin notarlo. Amo tus risas inesperadas, pero también tu concentración, tus momentos de cansancio, tus pausas. Todo eso me recuerda que no amo una versión idealizada de ti, sino cada una de tus formas reales.
+Amo cómo tu presencia transforma los lugares. No importa dónde estemos, todo se siente más habitable cuando estás. Como si el mundo, al verte, bajara la voz y se acomodara mejor. A tu lado aprendí que no necesito escapar de la realidad, porque contigo la realidad deja de pesar.
+Amo los momentos en los que nos miramos sin decir nada y aun así lo decimos todo. Cuando el contacto no es urgencia, sino refugio. Cuando estar juntos no es una promesa, sino una certeza tranquila. Contigo entendí que el amor no siempre se manifiesta en gestos grandes, sino en la constancia de quedarse.
+Y amo, sobre todo, que cada instante a tu lado, por pequeño que parezca, tiene sentido. Porque no se trata de la intensidad, sino de la verdad. Porque contigo el tiempo no se desperdicia, se vive. Y en cada momento compartido confirmo lo mismo: no hay lugar donde prefiera estar que aquí, contigo.`;
+const lastTextContent = `Recuerdo cuando me hablaste de tu color favorito, tus aspiraciones y deseos, como si en ese momento me estuvieras entregando algo frágil sin envolverlo en solemnidad. No lo dijiste como una confesión, sino con naturalidad, y aun así sentí que había algo importante en cada palabra. Yo escuchaba atento, intentando no interrumpir, entendiendo que conocerte también era aprender a guardar silencio.
+Me hablaste de lo que te gusta, de lo que te inspira, de aquello que te hace sentir viva. Y mientras lo decías, empecé a notar cómo tu mirada cambiaba, cómo tu voz se afirmaba cuando hablaba de lo que sueñas, cómo se suavizaba al mencionar lo que deseas con más cuidado. Ahí comprendí que tus sueños no eran caprichos, sino extensiones de tu manera de sentir el mundo.
+Luego vinieron tus aspiraciones, dichas sin arrogancia, con esa mezcla tuya de esperanza y prudencia. No hablaste de grandeza vacía, hablaste de sentido. De crecer, de construir, de llegar sin perderte. Y yo entendí que amarte no sería empujarte, sino caminar contigo, respetar tus ritmos, sostenerte cuando el cansancio aparezca y celebrar cada paso, por pequeño que parezca.
+Recuerdo también cuando mencionaste tus miedos, aunque no los llamaras así. Los dijiste disfrazados de dudas, de silencios breves, de miradas que bajaban un poco. En ese instante supe que confiarías en quien supiera quedarse sin juzgarte. Y yo quise ser ese lugar seguro donde tus deseos no se sintieran expuestos, sino protegidos.
+Desde entonces, cada vez que pienso en tu color favorito ya no lo asocio solo a un tono, sino a la forma en que lo dijiste, al momento compartido, a la intimidad que se creó sin darnos cuenta. Cada aspiración tuya se volvió algo que respeto, no algo que pretendo moldear. Cada deseo, algo que cuido.
+Conocerte así, desde lo que sueñas, lo que temes y lo que anhelas, fue aprender a verte completa. No como alguien a quien amar a ratos, sino como alguien a quien elegir todos los días. Y desde ese recuerdo, sigo aquí, escuchándote, quedándome, aprendiendo a amarte sin ruido, pero con profundidad.`;
+
+const middleTextContent = `La magia de tu rostro, tus labios dulces y tus ojos imperdibles no apareció de golpe, se fue revelando con el tiempo. Primero fue tu expresión, esa forma tan tuya de estar presente, de mirar sin imponerte, de decir tanto sin necesidad de palabras. Tu rostro tiene algo que calma, como si supiera exactamente cuándo el mundo pesa y decidiera suavizarlo.
+Luego entendí tus labios. No solo por su dulzura, sino por lo que guardan. Por las palabras que dicen cuando hablan despacio, por las sonrisas que nacen sin aviso, por los silencios que sostienen. En ellos hay promesas que no se dicen, verdades que no necesitan explicarse, afectos que se sienten antes de nombrarse.
+Y después están tus ojos, imposibles de ignorar. Ojos que no miran por costumbre, que se quedan, que atraviesan. En ellos hay calma y profundidad, hay preguntas, hay certezas. A veces parecen sostenerme, otras veces invitarme a perderme un poco, pero siempre me hacen volver. Mirarte es aprender a detener el tiempo sin pedirle permiso.
+Tu belleza no es solo lo que se ve, es lo que permanece. Es la forma en que tu rostro refleja lo que sientes, cómo tus labios acompañan cada emoción, cómo tus ojos revelan lo que incluso tú intentas ocultar. Y en esa magia silenciosa, constante, descubro que no te admiro desde lejos: te amo desde la cercanía, desde el detalle, desde cada mirada que me recuerda por qué sigo aquí.`;
+
+const confessionContent = `Soy un hombre con errores, a veces muy impulsivo. No siempre sé decir las cosas en el momento correcto, no siempre actúo con la calma que mereces. A veces dejo que mis emociones hablen antes que mi razón, y sé que eso puede herir, confundir o cansar. No lo digo para excusarme, lo digo porque te debo la verdad.
+Pero si hay algo que nunca ha cambiado, es mi intención contigo. Mi misión, incluso cuando fallo, siempre ha sido verte bien, verte tranquila, verte feliz. Nunca he querido ser una carga en tu vida, ni una sombra en tus días. Si alguna vez lo fui, créeme que me duele más de lo que sé explicar.
+Perdóname por los males que pude haber generado, por las palabras dichas desde el impulso, por los silencios que no supe llenar, por los momentos en los que debí escucharte más y hablar menos. Perdóname si alguna vez te hice dudar de lo que siento o de lo importante que eres para mí.
+Estoy aprendiendo. No a dejar de sentir, porque sentir también es parte de amar, sino a cuidar mejor lo que siento por ti. A elegir mis acciones, a pensar antes de reaccionar, a ser un lugar seguro y no una tormenta innecesaria.
+No te prometo perfección, porque no sería real. Pero sí te prometo intención, conciencia y esfuerzo. Prometo crecer, corregirme y hacer de mis errores lecciones, no heridas. Porque amarte no es solo sentir bonito, es responsabilizarme de cómo te hago sentir. Y eso, incluso con mis fallas, sigue siendo lo más importante para mí.
+Quiero que sepas que cada error que reconozco no me aleja de ti, me acerca con más claridad. Porque mirarte con honestidad implica aceptar mis sombras sin negarte la luz que mereces. No busco que me entiendas desde la indulgencia, sino desde la verdad que se construye con actos.
+Amarte también ha sido aprender a sostenerme, a no descargar en ti lo que debo resolver en mí. A comprender que tu paz no es algo que se pide, es algo que se protege. Y en ese aprendizaje, aunque a veces tropiece, sigo eligiendo mejorar, no rendirme.
+Si alguna vez el pasado pesa, quiero que sepas que mi presente está atento y mi intención firme. No camino perfecto, pero camino consciente. Y mientras siga aprendiendo a amarte mejor, seguiré aquí, con humildad, con responsabilidad y con el deseo sincero de ser alguien que sume, no que duela.`;
+
+
+/* AUDIO */
+const songs = [
+  "cerati_vivo.mp3",
+  "enemigo_enjambre.mp3",
+  "gloria_eres_tu.mp3"
+];
+
+let currentSong = 0;
+let audio;
+
+function startMusicSequence() {
+  if (currentSong >= songs.length) return;
+
+  audio = new Audio(songs[currentSong]);
+  audio.play();
+
+  audio.onended = () => {
+    currentSong++;
+    startMusicSequence();
+  };
+}
+
+let index = 0, finalIndex = 0, lastIndex = 0, middleIndex = 0, confessionIndex = 0;
+const speed = 20;
+
+
+ 
+function goToStep2() {
+  step1.style.display = "none";
+  step2.style.display = "block";
+}
+
+function goToDate() {
+  step2.style.display = "none";
+  dateSection.style.display = "block";
+}
+
+function checkDate() {
+  const valid = ["27 de diciembre del 2025", "27/12/25", "27/12/2025"];
+  if (valid.includes(dateInput.value.trim())) startText();
+  else error.style.display = "block";
+}
+
+function startText() {
+  startMusicSequence(); // 🔊 INICIA AUDIO POR INTERACCIÓN
+
+ document.body.style.background = "black";
+document.body.classList.add("scroll-enabled");
+
+document.body.innerHTML = `
+  <div class="scroll-container">
+
+      <div id="textContainer"></div>
+      <div id="controls">
+        <button id="skipBtn" onclick="skipText()">Saltar</button>
+        <button id="continueBtn" onclick="startImages()">¿Quieres continuar?</button>
+      </div>
+
+      <div id="imageSequence">
+        <img src="IMG_20251227_221344.jpg">
+        <img src="IMG_20251227_220224.jpg">
+        <img src="IMG-20251228-WA0014.jpg">
+      </div>
+
+      <div id="finalText"></div>
+      <button id="finalContinueBtn" onclick="showLastText()">Continuar</button>
+
+      <div id="lastText"></div>
+      <button id="lastContinueBtn" onclick="showUImages()">Continuar</button>
+
+      <div id="uImages">
+        <img id="imgTopCenter" src="IMG_20251224_132955.jpg">
+        <img id="imgBottomCenter" src="IMG_20251227_201700.jpg">
+        <img id="imgTopLeft" src="IMG_20251227_212049.jpg">
+        <div id="middleText"></div>
+        <button id="middleContinueBtn" onclick="startConfession()">Continuar</button>
+      </div>
+
+      <div id="confessionText"></div>
+      <div id="loveText">Te amo.</div>
+    </div>
+  `;
+  skipBtn.style.display = "inline-block";
+  typeText();
+}
+
+
+function typeText() {
+  if (index < fullText.length) {
+    textContainer.innerHTML += fullText[index++];
+    setTimeout(typeText, speed);
+  } else {
+    skipBtn.style.display = "none";
+    continueBtn.style.display = "inline-block";
+  }
+}
+
+function skipText() {
+  textContainer.innerHTML = fullText;
+  skipBtn.style.display = "none";
+  continueBtn.style.display = "inline-block";
+}
+
+function startImages() {
+  textContainer.style.display = "none";
+  controls.style.display = "none";
+  imageSequence.style.display = "block";
+
+  imageSequence.querySelectorAll("img").forEach((img, i) => {
+    setTimeout(() => img.style.opacity = 1, i * 1500);
+  });
+
+  setTimeout(typeFinalText, 3000);
+}
+
+function typeFinalText() {
+  if (finalIndex < finalTextContent.length) {
+    finalText.innerHTML += finalTextContent[finalIndex++];
+    setTimeout(typeFinalText, speed);
+  } else {
+    finalContinueBtn.style.display = "block";
+  }
+}
+
+function showLastText() {
+  imageSequence.style.display = "none";
+  finalText.style.display = "none";
+  finalContinueBtn.style.display = "none";
+  lastText.classList.add("show");
+
+  function typeLast() {
+    if (lastIndex < lastTextContent.length) {
+      lastText.innerHTML += lastTextContent[lastIndex++];
+      setTimeout(typeLast, speed);
+    } else {
+      lastContinueBtn.style.display = "block";
+    }
+  }
+  typeLast();
+}
+
+function showUImages() {
+  lastText.style.display = "none";
+  lastContinueBtn.style.display = "none";
+  uImages.style.display = "block";
+
+  setTimeout(() => imgTopCenter.classList.add("show"), 300);
+  setTimeout(() => imgBottomCenter.classList.add("show"), 900);
+  setTimeout(() => {
+    imgTopLeft.classList.add("show");
+    middleText.style.display = "block";
+    typeMiddleText();
+  }, 1500);
+}
+
+function typeMiddleText() {
+  if (middleIndex < middleTextContent.length) {
+    middleText.innerHTML += middleTextContent[middleIndex++];
+    setTimeout(typeMiddleText, speed);
+  } else {
+    middleContinueBtn.style.display = "block";
+  }
+}
+
+function startConfession() {
+  uImages.style.display = "none";
+  confessionText.style.display = "block";
+  confessionText.style.opacity = 1;
+
+  function typeConfession() {
+    if (confessionIndex < confessionContent.length) {
+      confessionText.innerHTML += confessionContent[confessionIndex++];
+      setTimeout(typeConfession, speed);
+    } else {
+      setTimeout(() => {
+        confessionText.style.opacity = 0;
+        setTimeout(() => {
+          confessionText.style.display = "none";
+          loveText.style.display = "block";
+          loveText.style.opacity = 1;
+        }, 2000);
+      }, 10000);
+    }
+  }
+  typeConfession();
+}
+</script>
+
+</body>
+</html>
